@@ -200,7 +200,11 @@ export interface LeadStats {
 
 export const authApi = {
   login: (email: string, password: string) =>
-    post<{ message: string; admin: AdminUser }>('/auth/login', { email, password }),
+    request<{ message: string; admin: AdminUser }>(
+      '/auth/login',
+      { method: 'POST', body: JSON.stringify({ email, password }) },
+      false, // không retry 401 → tránh trigger refresh khi sai mật khẩu
+    ),
   logout: () => post('/auth/logout'),
   getMe: () => get<AdminUser>('/auth/me'),
   refreshToken: () => post('/auth/refresh-token'),
