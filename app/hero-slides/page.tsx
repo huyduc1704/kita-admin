@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import {
   Button, Table, Switch, Space, Image, Typography,
-  Modal, Form, Input, InputNumber, App, Tooltip, Tag,
+  Modal, Form, InputNumber, App, Tooltip,
 } from 'antd';
 import {
   PlusOutlined, EditOutlined, DeleteOutlined,
@@ -12,7 +12,6 @@ import type { ColumnsType } from 'antd/es/table';
 import { heroSlidesApi, HeroSlide } from '@/utils/api';
 
 const { Title } = Typography;
-const { TextArea } = Input;
 
 export default function HeroSlidesPage() {
   const [slides, setSlides] = useState<HeroSlide[]>([]);
@@ -114,20 +113,6 @@ export default function HeroSlidesPage() {
       render: (url: string) => <Image src={url} width={80} height={50} style={{ objectFit: 'cover', borderRadius: 4 }} preview={{ mask: <PictureOutlined /> }} />,
     },
     {
-      title: 'Tiêu đề / Phụ đề', key: 'text',
-      render: (_, s) => (
-        <Space direction="vertical" size={2}>
-          <strong>{s.title || <em style={{ color: '#bbb' }}>Chưa có tiêu đề</em>}</strong>
-          {s.subtitle && <span style={{ fontSize: 12, color: '#888' }}>{s.subtitle}</span>}
-          {s.highlight && <Tag color="orange" style={{ fontSize: 11 }}>{s.highlight}</Tag>}
-        </Space>
-      ),
-    },
-    {
-      title: 'CTA', key: 'cta', width: 160,
-      render: (_, s) => s.ctaText ? <span>{s.ctaText} → <code style={{ fontSize: 11 }}>{s.ctaLink}</code></span> : <em style={{ color: '#bbb' }}>-</em>,
-    },
-    {
       title: 'Thứ tự', key: 'order', width: 90, align: 'center',
       render: (_, s, idx) => (
         <Space>
@@ -189,21 +174,6 @@ export default function HeroSlidesPage() {
             )}
           </Form.Item>
 
-          <Form.Item name="title" label="Tiêu đề">
-            <Input placeholder="THIẾT KẾ & THI CÔNG" />
-          </Form.Item>
-          <Form.Item name="subtitle" label="Phụ đề">
-            <Input placeholder="Không gian sống đẳng cấp" />
-          </Form.Item>
-          <Form.Item name="highlight" label="Highlight (chữ nổi bật)">
-            <Input placeholder="TRỌN GÓI" />
-          </Form.Item>
-          <Form.Item name="ctaText" label="Nút CTA — Tên nút">
-            <Input placeholder="XEM DỰ ÁN" />
-          </Form.Item>
-          <Form.Item name="ctaLink" label="Nút CTA — Đường dẫn">
-            <Input placeholder="/du-an" />
-          </Form.Item>
           <Form.Item name="order" label="Thứ tự">
             <InputNumber min={0} style={{ width: '100%' }} />
           </Form.Item>
