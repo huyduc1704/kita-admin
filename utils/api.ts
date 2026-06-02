@@ -1,5 +1,17 @@
 const API_BASE = '/api';
 
+// ─── Token storage ─────────────────────────────────────────────────────────
+const getAccessToken  = () => typeof window !== 'undefined' ? localStorage.getItem('access_token')  : null;
+const getRefreshToken = () => typeof window !== 'undefined' ? localStorage.getItem('refresh_token') : null;
+const setTokens = (access: string, refresh: string) => {
+  localStorage.setItem('access_token',  access);
+  localStorage.setItem('refresh_token', refresh);
+};
+const clearTokens = () => {
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('refresh_token');
+};
+
 // ─── Token refresh queue ───────────────────────────────────────────────────
 let isRefreshing = false;
 let refreshQueue: Array<(ok: boolean) => void> = [];
@@ -10,12 +22,14 @@ async function request<T = unknown>(
   retry = true,
 ): Promise<T> {
   const isFormData = options.body instanceof FormData;
+  const token = getAccessToken();
 
   const res = await fetch(`${API_BASE}${path}`, {
     ...options,
     credentials: 'include',
     headers: {
       ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...(options.headers || {}),
     },
   });
@@ -25,6 +39,13 @@ async function request<T = unknown>(
 
   // 401 → thử refresh token
   if (res.status === 401 && retry) {
+    const storedRefresh = getRefreshToken();
+    if (!storedRefresh) {
+      clearTokens();
+      if (typeof window !== 'undefined') window.location.href = '/login?session_expired=true';
+      throw new Error('Session expired');
+    }
+
     if (isRefreshing) {
       return new Promise((resolve, reject) => {
         refreshQueue.push((ok) => {
@@ -38,19 +59,21 @@ async function request<T = unknown>(
     const refreshed = await fetch(`${API_BASE}/auth/refresh-token`, {
       method: 'POST',
       credentials: 'include',
+      headers: { 'x-refresh-token': storedRefresh },
     });
     isRefreshing = false;
 
     if (refreshed.ok) {
+      const data = await refreshed.json() as { accessToken: string; refreshToken: string };
+      setTokens(data.accessToken, data.refreshToken);
       refreshQueue.forEach((cb) => cb(true));
       refreshQueue = [];
       return request<T>(path, options, false);
     } else {
+      clearTokens();
       refreshQueue.forEach((cb) => cb(false));
       refreshQueue = [];
-      if (typeof window !== 'undefined') {
-        window.location.href = '/login?session_expired=true';
-      }
+      if (typeof window !== 'undefined') window.location.href = '/login?session_expired=true';
       throw new Error('Session expired');
     }
   }
@@ -199,9 +222,16 @@ export interface LeadStats {
 // ─── Auth API ─────────────────────────────────────────────────────────────
 
 export const authApi = {
-  login: (email: string, password: string) =>
-    post<{ message: string; admin: AdminUser }>('/auth/login', { email, password }),
-  logout: () => post('/auth/logout'),
+  login: async (email: string, password: string) => {
+    const res = await post<{ message: string; admin: AdminUser; accessToken: string; refreshToken: string }>(
+      '/auth/login', { email, password }
+    );
+    if (res.accessToken) setTokens(res.accessToken, res.refreshToken);
+    return res;
+  },
+  logout: async () => {
+    try { await post('/auth/logout'); } finally { clearTokens(); }
+  },
   getMe: () => get<AdminUser>('/auth/me'),
   refreshToken: () => post('/auth/refresh-token'),
   changePassword: (currentPassword: string, newPassword: string) =>
