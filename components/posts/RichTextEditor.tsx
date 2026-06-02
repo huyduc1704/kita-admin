@@ -30,6 +30,7 @@ export default function RichTextEditor({ value, onChange }: Props) {
         const editor = quillRef.current?.getEditor();
         if (!editor) return;
         const range = editor.getSelection(true);
+        if (!range) return;
         editor.insertEmbed(range.index, 'image', url);
         editor.setSelection(range.index + 1);
       } catch {
