@@ -24,7 +24,7 @@ export default function Editor({ value, onChange }: { value?: string; onChange?:
         }
       `}</style>
       <CKEditor
-        editor={ClassicEditor}
+        editor={ClassicEditor as any}
         data={value || ''}
         onChange={(event, editor) => {
           const data = editor.getData();
