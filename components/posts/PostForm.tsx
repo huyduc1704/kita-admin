@@ -287,14 +287,16 @@ export default function PostForm({ post, defaultType }: Props) {
               <Select options={TYPE_OPTIONS} onChange={(v) => { setType(v); form.setFieldValue('categoryId', undefined); }} />
             </Form.Item>
 
-            <Form.Item name="categoryId" label="Danh mục">
-              <Select
-                placeholder="Chọn danh mục..."
-                allowClear
-                options={categories.map((c) => ({ value: c.id, label: c.name }))}
-                notFoundContent={<Text type="secondary">Chưa có danh mục cho loại này</Text>}
-              />
-            </Form.Item>
+            {type !== 'pricing' && (
+              <Form.Item name="categoryId" label="Danh mục">
+                <Select
+                  placeholder="Chọn danh mục..."
+                  allowClear
+                  options={categories.map((c) => ({ value: c.id, label: c.name }))}
+                  notFoundContent={<Text type="secondary">Chưa có danh mục cho loại này</Text>}
+                />
+              </Form.Item>
+            )}
 
             <Form.Item name="order" label="Thứ tự hiển thị">
               <InputNumber min={0} style={{ width: '100%' }} />

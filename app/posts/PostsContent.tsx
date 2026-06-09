@@ -175,14 +175,16 @@ export default function PostsContent() {
           style={{ width: 260 }}
           allowClear
         />
-        <Select
-          placeholder="Lọc theo danh mục"
-          allowClear
-          style={{ width: 220 }}
-          value={categoryFilter}
-          onChange={(v) => { setCategoryFilter(v); setPage(1); }}
-          options={categories.map((c) => ({ value: c.id, label: c.name }))}
-        />
+        {activeType !== 'pricing' && (
+          <Select
+            placeholder="Lọc theo danh mục"
+            allowClear
+            style={{ width: 220 }}
+            value={categoryFilter}
+            onChange={(v) => { setCategoryFilter(v); setPage(1); }}
+            options={categories.map((c) => ({ value: c.id, label: c.name }))}
+          />
+        )}
       </Space>
 
       <Table

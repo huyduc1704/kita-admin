@@ -60,7 +60,14 @@ async function request<T = unknown>(
     throw Object.assign(new Error(error.message || 'Request failed'), { status: res.status, data: error });
   }
 
-  return res.json() as Promise<T>;
+  const text = await res.text();
+  if (!text) return undefined as T;
+  
+  try {
+    return JSON.parse(text) as T;
+  } catch {
+    return text as unknown as T;
+  }
 }
 
 const get  = <T>(path: string) => request<T>(path);
