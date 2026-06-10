@@ -62,7 +62,7 @@ async function request<T = unknown>(
 
   const text = await res.text();
   if (!text) return undefined as T;
-  
+
   try {
     return JSON.parse(text) as T;
   } catch {
@@ -70,12 +70,12 @@ async function request<T = unknown>(
   }
 }
 
-const get  = <T>(path: string) => request<T>(path);
+const get = <T>(path: string) => request<T>(path);
 const post = <T>(path: string, body?: unknown) =>
   request<T>(path, { method: 'POST', body: body instanceof FormData ? body : JSON.stringify(body) });
-const put  = <T>(path: string, body?: unknown) =>
+const put = <T>(path: string, body?: unknown) =>
   request<T>(path, { method: 'PUT', body: body instanceof FormData ? body : JSON.stringify(body) });
-const del  = <T>(path: string) => request<T>(path, { method: 'DELETE' });
+const del = <T>(path: string) => request<T>(path, { method: 'DELETE' });
 
 // ─── Types ────────────────────────────────────────────────────────────────
 
@@ -103,6 +103,7 @@ export interface SystemSetting {
   feedbackImageUrl: string | null;
   updatedAt: string;
   resolvedSocialButtons: SocialButton[];
+  homeConfig?: any;
 }
 
 export interface SocialButton {
@@ -155,7 +156,7 @@ export interface Category {
 
 export interface Post {
   id: number;
-  type: 'project' | 'service' | 'news' | 'knowledge' | 'pricing';
+  type: 'project' | 'service' | 'news' | 'knowledge' | 'pricing' | 'about';
   title: string;
   slug: string;
   excerpt: string | null;

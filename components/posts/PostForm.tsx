@@ -17,13 +17,14 @@ const { TextArea } = Input;
 const TYPE_OPTIONS = [
   { value: 'project',   label: '🏗️ Dự Án' },
   { value: 'service',   label: '🔧 Dịch Vụ' },
+  { value: 'about',     label: '🏢 Giới Thiệu' },
   { value: 'news',      label: '📰 Tin Tức' },
   { value: 'knowledge', label: '📚 Kiến Thức' },
   { value: 'pricing',   label: '💰 Báo Giá' },
 ];
 
 const GROUP_BY_TYPE: Record<string, string> = {
-  project: 'du-an', service: 'dich-vu', news: 'tin-tuc',
+  project: 'du-an', service: 'dich-vu', about: 'gioi-thieu', news: 'tin-tuc',
   knowledge: 'kien-thuc', pricing: 'bao-gia',
 };
 

@@ -15,13 +15,14 @@ const { Title, Text } = Typography;
 const TYPE_CONFIG: Record<string, { label: string; color: string }> = {
   project:   { label: 'Dự Án',     color: 'blue' },
   service:   { label: 'Dịch Vụ',   color: 'purple' },
+  about:     { label: 'Giới Thiệu', color: 'magenta' },
   news:      { label: 'Tin Tức',    color: 'green' },
   knowledge: { label: 'Kiến Thức', color: 'cyan' },
   pricing:   { label: 'Báo Giá',   color: 'orange' },
 };
 
 const GROUP_BY_TYPE: Record<string, string> = {
-  project: 'du-an', service: 'dich-vu', news: 'tin-tuc',
+  project: 'du-an', service: 'dich-vu', about: 'gioi-thieu', news: 'tin-tuc',
   knowledge: 'kien-thuc', pricing: 'bao-gia',
 };
 

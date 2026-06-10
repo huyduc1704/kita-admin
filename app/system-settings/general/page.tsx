@@ -24,6 +24,9 @@ export default function GeneralSettingsPage() {
         email: setting.email,
         addressNorth: setting.addressNorth,
         addressSouth: setting.addressSouth,
+        footerDescription: setting.footerDescription,
+        footerCopyright: setting.footerCopyright,
+        footerFanpageUrl: setting.footerFanpageUrl,
       });
     }
   }, [setting, form]);
@@ -43,7 +46,7 @@ export default function GeneralSettingsPage() {
 
   return (
     <div>
-      <Title level={4} style={{ marginBottom: 20 }}>Thông Tin Chung</Title>
+      <Title level={4} style={{ marginBottom: 20 }}>Footer</Title>
 
       <Form form={form} layout="vertical" onFinish={handleSave}>
         <Row gutter={24}>
@@ -71,12 +74,24 @@ export default function GeneralSettingsPage() {
           </Col>
 
           <Col xs={24} lg={12}>
-            <Card title="Địa Chỉ">
+            <Card title="Địa Chỉ" style={{ marginBottom: 16 }}>
               <Form.Item name="addressNorth" label="Địa chỉ Miền Bắc">
                 <TextArea rows={3} placeholder="G29-30 Ngô Thì Nhậm, Hà Đông, Hà Nội" />
               </Form.Item>
               <Form.Item name="addressSouth" label="Địa chỉ Miền Nam">
                 <TextArea rows={3} placeholder="Đường T2-41 Vinhomes Grand Park, TP.Thủ Đức, HCM" />
+              </Form.Item>
+            </Card>
+
+            <Card title="Chân Trang (Footer)">
+              <Form.Item name="footerDescription" label="Đoạn giới thiệu ngắn">
+                <TextArea rows={4} placeholder="GAMMA HOME là đơn vị thiết kế và thi công nhà trọn gói..." />
+              </Form.Item>
+              <Form.Item name="footerCopyright" label="Bản quyền (Copyright)">
+                <Input placeholder="© 2021 Bản quyền thuộc về Gamma Home." />
+              </Form.Item>
+              <Form.Item name="footerFanpageUrl" label="Đường dẫn Fanpage Facebook" help="Bỏ trống sẽ tự động hiển thị Fanpage mặc định từ cấu hình Mạng Xã Hội">
+                <Input placeholder="https://www.facebook.com/nhadepgamma" />
               </Form.Item>
             </Card>
           </Col>

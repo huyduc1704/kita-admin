@@ -17,6 +17,7 @@ const MENU = [
     key: 'system-settings', icon: <SettingOutlined />, label: 'Cài Đặt Hệ Thống',
     children: [
       { key: '/system-settings/general', label: 'Thông Tin Chung' },
+      { key: '/system-settings/home', label: 'Cài Đặt Trang Chủ' },
       { key: '/system-settings/logo', label: 'Logo & Favicon' },
       { key: '/system-settings/social-buttons', label: 'Nút Mạng Xã Hội' },
     ],
@@ -28,6 +29,7 @@ const MENU = [
     children: [
       { key: '/posts?type=project', label: 'Dự Án' },
       { key: '/posts?type=service', label: 'Dịch Vụ' },
+      { key: '/posts?type=about', label: 'Giới Thiệu' },
       { key: '/posts?type=news', label: 'Tin Tức' },
       { key: '/posts?type=knowledge', label: 'Kiến Thức' },
       { key: '/posts?type=pricing', label: 'Báo Giá' },
