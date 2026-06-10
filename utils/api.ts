@@ -101,6 +101,9 @@ export interface SystemSetting {
   logoUrl: string | null;
   faviconUrl: string | null;
   feedbackImageUrl: string | null;
+  footerDescription?: string;
+  footerCopyright?: string;
+  footerFanpageUrl?: string;
   updatedAt: string;
   resolvedSocialButtons: SocialButton[];
   homeConfig?: any;
